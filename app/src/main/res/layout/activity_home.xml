@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshL"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".views.HomeActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/msgTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="22sp"
+            android:visibility="gone"
+            tools:text="@string/error_connection_internet" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/countriesRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="android.support.v7.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_country" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/logoutB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_log_out"
+            app:fabCustomSize="64dp"
+            app:maxImageSize="40dp" />
+
+    </FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

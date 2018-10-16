@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Countries</string>
+    <string name="login_via">Login via</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="dont_have_acc">Don\'t have account.</string>
+    <string name="register_u"><u>Register</u></string>
+    <string name="already_have_acc">Already have account.</string>
+    <string name="login_u"><u>Login</u></string>
+    <string name="register">Register</string>
+    <string name="logout">Logout</string>
+    <string name="name">Name</string>
+    <string name="confirmPassword">Confirm password</string>
+    <string name="auth_failed">Failed to login!!</string>
+    <string name="short_pw">Short password!!</string>
+    <string name="unmatch_pw">Unmatched passwords!!</string>
+    <string name="empty_">Empty!!</string>
+    <string name="authent_failed">Authentication failed.</string>
+    <string name="error_connection_internet">No internet connection!!</string>
+    <string name="dialog_please_wait">Please wait...</string>
+
+</resources>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "148964703401",
+    "firebase_url": "https://countries-68731.firebaseio.com",
+    "project_id": "countries-68731",
+    "storage_bucket": "countries-68731.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148964703401:android:23a851b98cd019ee",
+        "android_client_info": {
+          "package_name": "com.nabil.nahla.countries"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148964703401-oadnglo3ulb1vpkkmdnkf4n9d5l2lp3a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nabil.nahla.countries",
+            "certificate_hash": "ab2d1bea51c1fb1c1983b2f61bbc70fc3c759163"
+          }
+        },
+        {
+          "client_id": "148964703401-80rrd4j5chjirlidarm95gqht1v32rhj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5HVFbJZRBqlJSz1U8Rfi6mt8rQeeuUhE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148964703401-80rrd4j5chjirlidarm95gqht1v32rhj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
