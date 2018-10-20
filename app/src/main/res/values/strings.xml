@@ -14,10 +14,11 @@
     <string name="confirmPassword">Confirm password</string>
     <string name="auth_failed">Failed to login!!</string>
     <string name="short_pw">Short password!!</string>
-    <string name="unmatch_pw">Unmatched passwords!!</string>
+    <string name="error_unmatch_pw">Unmatched passwords!!</string>
     <string name="empty_">Empty!!</string>
     <string name="authent_failed">Authentication failed.</string>
     <string name="error_connection_internet">No internet connection!!</string>
     <string name="dialog_please_wait">Please wait...</string>
+    <string name="error_invalid_email">Invalid email</string>
 
 </resources>

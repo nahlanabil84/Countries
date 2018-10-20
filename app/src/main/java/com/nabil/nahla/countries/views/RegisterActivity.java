@@ -3,6 +3,7 @@ package com.nabil.nahla.countries.views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,6 +13,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.nabil.nahla.countries.R;
+import com.nabil.nahla.countries.utils.Validation;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +27,8 @@ public class RegisterActivity extends AppCompatActivity {
     EditText passwordET;
     @BindView(R.id.confirmPasswordET)
     EditText confirmPasswordET;
+    @BindView(R.id.passwordTIL)
+    TextInputLayout passwordTIL;
 
     FirebaseAuth auth;
 
@@ -36,46 +40,57 @@ public class RegisterActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
+        Validation emailValidation = new Validation(this, emailET);
+        emailET = emailValidation.validateEmail();
+
+        Validation passwordValidation = new Validation(this, confirmPasswordET);
+        confirmPasswordET = passwordValidation.validatePassword(passwordET);
+
     }
 
     @OnClick(R.id.registerB)
     public void onRegisterBClicked() {
-        if (validateET()) return;
+        if (isValid()) return;
 
-        if (emailET.getError() == null && passwordET.getError() == null && confirmPasswordET.getError() == null)
+        if (emailET.getError() == null && passwordTIL.getError() == null && confirmPasswordET.getError() == null)
             createAccount(emailET.getText().toString(), passwordET.getText().toString());
         else if (emailET.getError() != null)
             Toast.makeText(this, emailET.getError().toString(), Toast.LENGTH_SHORT).show();
-        else if (passwordET.getError() != null)
-            Toast.makeText(this, passwordET.getError().toString(), Toast.LENGTH_SHORT).show();
+        else if (passwordTIL.getError() != null)
+            Toast.makeText(this, passwordTIL.getError().toString(), Toast.LENGTH_SHORT).show();
         else if (confirmPasswordET.getError() != null)
             Toast.makeText(this, confirmPasswordET.getError().toString(), Toast.LENGTH_SHORT).show();
 
     }
 
-    private boolean validateET() {
+    private boolean isValid() {
         if (emailET.getText().toString().isEmpty()) {
             emailET.setError(getString(R.string.empty_));
             return true;
-        } else emailET.setError(null);
+        }
+
+        if (emailET.getError() != null) {
+            emailET.setError(emailET.getError().toString());
+            return true;
+        }
 
         if (passwordET.getText().toString().isEmpty()) {
-            passwordET.setError(getString(R.string.empty_));
+            passwordTIL.setError(getString(R.string.empty_));
             return true;
-        } else passwordET.setError(null);
+        } else passwordTIL.setError(null);
 
         if (passwordET.getText().toString().length() < 6) {
-            passwordET.setError(getString(R.string.short_pw));
+            passwordTIL.setError(getString(R.string.short_pw));
             return true;
-        } else passwordET.setError(null);
+        } else passwordTIL.setError(null);
 
         if (confirmPasswordET.getText().toString().isEmpty()) {
             confirmPasswordET.setError(getString(R.string.empty_));
             return true;
-        } else passwordET.setError(null);
+        } else confirmPasswordET.setError(null);
 
         if (!passwordET.getText().toString().equals(confirmPasswordET.getText().toString())) {
-            confirmPasswordET.setError(getString(R.string.unmatch_pw));
+            confirmPasswordET.setError(getString(R.string.error_unmatch_pw));
             return true;
         } else confirmPasswordET.setError(null);
         return false;
@@ -94,7 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), getString(R.string.authent_failed) + task.getException(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                         } else {
                             startActivity(new Intent(RegisterActivity.this, HomeActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));

@@ -3,6 +3,7 @@ package com.nabil.nahla.countries.views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.nabil.nahla.countries.R;
+import com.nabil.nahla.countries.utils.Validation;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +26,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText emailET;
     @BindView(R.id.passwordET)
     EditText passwordET;
+    @BindView(R.id.passwordTIL)
+    TextInputLayout passwordTIL;
 
     private FirebaseAuth auth;
 
@@ -36,31 +40,44 @@ public class LoginActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
+        Validation emailValidation = new Validation(this, emailET);
+        emailET = emailValidation.validateEmail();
+
     }
 
     @OnClick(R.id.loginB)
     public void onLoginBClicked() {
-        if (emailET.getText().toString().isEmpty()) {
-            emailET.setError(getString(R.string.empty_));
-            return;
-        } else emailET.setError(null);
+        if (isValid()) return;
 
-        if (passwordET.getText().toString().isEmpty()) {
-            passwordET.setError(getString(R.string.empty_));
-            return;
-        } else passwordET.setError(null);
-
-        if (passwordET.getText().toString().length() < 6) {
-            passwordET.setError(getString(R.string.short_pw));
-            return;
-        } else passwordET.setError(null);
-
-        if (emailET.getError() == null && passwordET.getError() == null)
+        if (emailET.getError() == null && passwordTIL.getError() == null)
             signIn(emailET.getText().toString(), passwordET.getText().toString());
         else if (emailET.getError() != null)
             Toast.makeText(this, emailET.getError().toString(), Toast.LENGTH_SHORT).show();
-        else if (passwordET.getError() != null)
-            Toast.makeText(this, passwordET.getError().toString(), Toast.LENGTH_SHORT).show();
+        else if (passwordTIL.getError() != null)
+            Toast.makeText(this, passwordTIL.getError().toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean isValid() {
+        if (emailET.getText().toString().isEmpty()) {
+            emailET.setError(getString(R.string.empty_));
+            return true;
+        }
+
+        if (emailET.getError() != null) {
+            emailET.setError(emailET.getError().toString());
+            return true;
+        }
+
+        if (passwordET.getText().toString().isEmpty()) {
+            passwordTIL.setError(getString(R.string.empty_));
+            return true;
+        } else passwordTIL.setError(null);
+
+        if (passwordET.getText().toString().length() < 6) {
+            passwordTIL.setError(getString(R.string.short_pw));
+            return true;
+        } else passwordTIL.setError(null);
+        return false;
     }
 
     @OnClick(R.id.registerTV)
@@ -74,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
                         } else {
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
