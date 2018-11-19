@@ -20,5 +20,6 @@
     <string name="error_connection_internet">No internet connection!!</string>
     <string name="dialog_please_wait">Please wait...</string>
     <string name="error_invalid_email">Invalid email</string>
+    <string name="select_letter">Select letter</string>
 
 </resources>

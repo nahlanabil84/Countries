@@ -1,6 +1,7 @@
 package com.nabil.nahla.countries.views;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -26,6 +27,7 @@ import butterknife.OnClick;
 
 public class HomeActivity extends AppCompatActivity implements OnGetDataListener<ArrayList<Country>, String>, SwipeRefreshLayout.OnRefreshListener {
 
+    private static final String LETTER_KEY = "LETTER";
     @BindView(R.id.msgTV)
     TextView msgTV;
     @BindView(R.id.countriesRV)
@@ -36,6 +38,14 @@ public class HomeActivity extends AppCompatActivity implements OnGetDataListener
     CountryAdapter countryAdapter;
     ArrayList<Country> countries;
 
+    String letter;
+
+    public static Intent newInstance(Context context, String letter) {
+        Intent intent = new Intent(context, HomeActivity.class);
+        intent.putExtra(LETTER_KEY, letter);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +54,8 @@ public class HomeActivity extends AppCompatActivity implements OnGetDataListener
         ButterKnife.bind(this);
 
         swipeRefreshL.setOnRefreshListener(this);
+
+        letter = getIntent().getStringExtra(LETTER_KEY);
 
         setUpRV();
         loadCountries();
@@ -74,8 +86,13 @@ public class HomeActivity extends AppCompatActivity implements OnGetDataListener
         msgTV.setVisibility(View.GONE);
         countriesRV.setVisibility(View.VISIBLE);
         swipeRefreshL.setRefreshing(false);
+
         countries.clear();
-        countries.addAll(data);
+        for (Country country : data) {
+            if (country.getName().startsWith(letter))
+                countries.add(country);
+        }
+        // countries.addAll(data);
         countryAdapter.notifyDataSetChanged();
     }
 

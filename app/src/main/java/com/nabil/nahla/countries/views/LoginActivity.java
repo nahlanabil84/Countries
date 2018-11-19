@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_LONG).show();
                         } else {
-                            startActivity(new Intent(LoginActivity.this, HomeActivity.class)
+                            startActivity(new Intent(LoginActivity.this, AlphaActivity.class)
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                             finish();
                         }
@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
-            startActivity(new Intent(this, HomeActivity.class));
+            startActivity(new Intent(this, AlphaActivity.class));
             finish();
         }
     }
