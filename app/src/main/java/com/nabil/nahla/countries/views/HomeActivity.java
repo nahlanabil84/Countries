@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,10 @@ public class HomeActivity extends AppCompatActivity implements OnGetDataListener
     RecyclerView countriesRV;
     @BindView(R.id.swipeRefreshL)
     SwipeRefreshLayout swipeRefreshL;
+    @BindView(R.id.countriesContainerLL)
+    LinearLayout countriesContainerLL;
+    @BindView(R.id.letterTV)
+    TextView letterTV;
 
     CountryAdapter countryAdapter;
     ArrayList<Country> countries;
@@ -84,7 +89,7 @@ public class HomeActivity extends AppCompatActivity implements OnGetDataListener
     @Override
     public void onSuccess(ArrayList<Country> data) {
         msgTV.setVisibility(View.GONE);
-        countriesRV.setVisibility(View.VISIBLE);
+        countriesContainerLL.setVisibility(View.VISIBLE);
         swipeRefreshL.setRefreshing(false);
 
         countries.clear();
@@ -93,6 +98,7 @@ public class HomeActivity extends AppCompatActivity implements OnGetDataListener
                 countries.add(country);
         }
         // countries.addAll(data);
+        letterTV.setText(letter);
         countryAdapter.notifyDataSetChanged();
     }
 
@@ -101,14 +107,14 @@ public class HomeActivity extends AppCompatActivity implements OnGetDataListener
         swipeRefreshL.setRefreshing(false);
         switch (errorMsg) {
             case "No internet connection!!":
-                countriesRV.setVisibility(View.GONE);
+                countriesContainerLL.setVisibility(View.GONE);
                 msgTV.setText(errorMsg);
                 msgTV.setVisibility(View.VISIBLE);
                 break;
             default:
                 Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
                 msgTV.setVisibility(View.GONE);
-                countriesRV.setVisibility(View.VISIBLE);
+                countriesContainerLL.setVisibility(View.VISIBLE);
                 break;
         }
     }
